@@ -4,7 +4,7 @@ from Data_prep.data_prep import Data_prep
 
 def main(args):
     processor = Data_prep(args)
-    return processor
+    processor.to_csv('processor.csv',index = False)
 
 
 if __name__ == "__main__":
