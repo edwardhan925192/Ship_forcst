@@ -14,7 +14,9 @@ class Data_prep:
       if args.extract_dates:
         self.extract_date_parts(args.datetime_col)
       if args.previous_delays:
-        self.previous_delays(args.num_instances)
+        self.previous_delays(args.delay_group,args.num_instances)        
+      if args.moving_avg:
+        self.compute_moving_average(args.avg_group, args.avg_window)
 
 
     
@@ -59,7 +61,7 @@ class Data_prep:
 
 
     
-    def previous_delays(self, num_instances=2):            
+    def previous_delays(self, delay_group, num_instances=2):            
     
         # The function that will be applied to each group
         def process_group(group):
@@ -73,12 +75,18 @@ class Data_prep:
           return group    
     
         # Group by 'ARI_CO' and apply the processing function
-        self.data = self.data.groupby('ARI_CO').apply(process_group).reset_index(drop=True)            
+        self.data = self.data.groupby(delay_group).apply(process_group).reset_index(drop=True)            
 
         print(f" ================= Delays calculated ! =============== ")
         
         return self.data
 
+    def compute_moving_average(self, group_col, window_size=3):
+    
+        self.data = self.data.sort_values(by=[group_col, 'date'])  # Assuming you have a date column to sort by within each group
+        self.data['moving_avg'] = self.data.groupby(group_col)['CI_HOUR'].transform(lambda x: x.rolling(window_size, min_periods=1).mean())
+        return df
+    
     def get_dataframe(self):
         return self.data
 
