@@ -89,8 +89,8 @@ class Data_prep:
           group = group.sort_values(by=['date'])
           
           # Create num_instances number of shifted columns
-          for i in range(1, f_num_instances - 1):
-              shifted_values = group['CI_HOUR'].shift(i)
+          for i in range(1, f_num_instances + 1):
+              shifted_values = group['CI_HOUR'].shift(-i)
               group[f'F_CI_shifted{i}'] = shifted_values
     
           return group    
