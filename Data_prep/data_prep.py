@@ -53,7 +53,9 @@ class Data_prep:
       self.data['day'] = self.data[datetime_col].dt.day
       self.data['hour'] = self.data[datetime_col].dt.hour
       self.data['minutes'] = self.data[datetime_col].dt.minute      
-
+      self.data['date'] = self.data['ATA']
+      self.data = self.data.drop(['ATA'],axis =1)
+        
       print(f" ================= Dates extracted ! =============== ")
 
       return self.data
