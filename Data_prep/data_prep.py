@@ -52,7 +52,7 @@ class Data_prep:
       self.data['month'] = self.data[datetime_col].dt.month
       self.data['day'] = self.data[datetime_col].dt.day
       self.data['hour'] = self.data[datetime_col].dt.hour
-      self.data = self.data.drop([datetime_col],axis = 1)
+      self.data['minutes'] = self.data[datetime_col].dt.minute      
 
       print(f" ================= Dates extracted ! =============== ")
 
@@ -60,9 +60,7 @@ class Data_prep:
 
 
     
-    def previous_delays(self, num_instances=2):    
-        # Convert year, month, day columns to a single datetime column for easier date manipulations
-        self.data['datetime'] = pd.to_datetime(self.data[['year', 'month', 'day', 'hour']])
+    def previous_delays(self, num_instances=2):            
     
         # The function that will be applied to each group
         def process_group(group):
@@ -73,14 +71,10 @@ class Data_prep:
               shifted_values = group['CI_HOUR'].shift(i)
               group[f'CI_HOUR_shifted{i}'] = shifted_values
     
-          return group
-    
+          return group    
     
         # Group by 'ARI_CO' and apply the processing function
-        self.data = self.data.groupby('ARI_CO').apply(process_group).reset_index(drop=True)
-    
-        # Drop the auxiliary datetime column
-        self.data = self.data.drop(columns=['datetime'])
+        self.data = self.data.groupby('ARI_CO').apply(process_group).reset_index(drop=True)            
 
         print(f" ================= Delays calculated ! =============== ")
         
