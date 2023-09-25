@@ -17,7 +17,6 @@ class Data_prep:
         self.previous_delays(args.num_instances)
 
 
-
     
     def load_data(self):
       self.data = pd.read_csv(self.filename)
@@ -87,4 +86,6 @@ class Data_prep:
         
         return self.data
 
-    
+    def get_dataframe(self):
+        return self.data
+
