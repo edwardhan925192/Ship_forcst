@@ -1,10 +1,12 @@
 import argparse
+import pandas as pd 
 from Data_prep.data_prep import Data_prep
 
 
 def main(args):
     processor = Data_prep(args)
-    processor.to_csv('processor.csv',index = False)
+    processed_dataframe = processor.get_dataframe()
+    processed_dataframe.to_csv('processed_df.csv',index = False) 
 
 
 if __name__ == "__main__":
