@@ -98,7 +98,7 @@ class Data_prep:
         # Group by 'ARI_CO' and apply the processing function
         self.data = self.data.groupby(f_delay_group).apply(process_group).reset_index(drop=True)            
 
-        print(f" ================= Delays calculated ! =============== ")
+        print(f" ================= Future calculated ! =============== ")
         
         return self.data
     
@@ -106,6 +106,9 @@ class Data_prep:
     
         self.data = self.data.sort_values(by=[group_col, 'date'])  # Assuming you have a date column to sort by within each group
         self.data['moving_avg'] = self.data.groupby(group_col)['CI_HOUR'].transform(lambda x: x.rolling(window_size, min_periods=1).mean())
+        
+        print(f" ================= Moving avg calculated ! =============== ")
+        
         return df
     
     def get_dataframe(self):
