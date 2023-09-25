@@ -5,7 +5,7 @@
 
 # Ship_forecast  
 !python main.py \
---num_instances \   
+--num_instances 2\     
 --file_path \    
 
 #bool  
@@ -14,6 +14,6 @@
 --extract_dates \   
 --previous_delays \  
 
---datetime_col \  
+--datetime_col 'ATA' \   
 
 
