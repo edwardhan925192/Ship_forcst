@@ -1,14 +1,14 @@
 # Ship_forecast  
 !python main.py \
---file_path "path_to_file.csv" \  
---load  \   
+--num_instances \   
+--file_path \    
 
-#Boolean  (default = True)  
---preprocess \   
---extract_dates \    
---previous_delays \    
+# Boolean flags for conditional execution of functions
+--load \  
+--preprocess \  
+--extract_dates \   
+--previous_delays \  
 
---datetime_col "ATA" \   
---num_instances  2 \ 
+--datetime_col \  
 
 
