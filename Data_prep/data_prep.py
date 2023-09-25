@@ -109,7 +109,7 @@ class Data_prep:
         
         print(f" ================= Moving avg calculated ! =============== ")
         
-        return df
+        return self.data
     
     def get_dataframe(self):
         return self.data
