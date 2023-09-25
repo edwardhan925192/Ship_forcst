@@ -6,7 +6,7 @@
 # Ship_forecast  
 !python main.py \
 --num_instances 2\     
---file_path \    
+--file_path '/content/train.csv' \      
 
 #bool  
 --load \   
