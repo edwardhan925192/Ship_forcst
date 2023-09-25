@@ -63,7 +63,7 @@ class Data_prep:
     
         # The function that will be applied to each group
         def process_group(group):
-          group = group.sort_values(by=['datetime'])
+          group = group.sort_values(by=['date'])
           
           # Create num_instances number of shifted columns
           for i in range(1, num_instances + 1):
