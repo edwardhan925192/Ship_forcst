@@ -2,6 +2,8 @@
 !python main.py \
 --num_instances \   
 --file_path \    
+
+#bool  
 --load \   
 --preprocess \  
 --extract_dates \   
