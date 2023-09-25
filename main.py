@@ -1,5 +1,6 @@
 import argparse
-from Data_prep import Data_prep
+from Data_prep.data_prep import Data_prep
+
 
 def main(args):
     processor = Data_prep(args)
