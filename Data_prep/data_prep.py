@@ -23,7 +23,6 @@ class Data_prep:
       print(f" ================= {self.filename}=============== loaded!")
 
 
-
     
     def preprocess(self):
       # Identify rows that meet the condition
@@ -38,8 +37,6 @@ class Data_prep:
       self.data = self.data.reset_index(drop=True)
 
       return self.data
-
-
 
     
     def extract_date_parts(self, datetime_col):
