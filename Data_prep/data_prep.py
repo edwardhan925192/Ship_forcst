@@ -15,6 +15,8 @@ class Data_prep:
         self.extract_date_parts(args.datetime_col)
       if args.previous_delays:
         self.previous_delays(args.delay_group,args.num_instances)        
+      if args.future_delays:
+        self.future_delays(args.f_delay_group,args.f_num_instances)        
       if args.moving_avg:
         self.compute_moving_average(args.avg_group, args.avg_window)
 
@@ -59,7 +61,6 @@ class Data_prep:
 
       return self.data
 
-
     
     def previous_delays(self, delay_group, num_instances=2):            
     
@@ -81,6 +82,26 @@ class Data_prep:
         
         return self.data
 
+    def future_delays(self, f_delay_group, f_num_instances=2):            
+    
+        # The function that will be applied to each group
+        def process_group(group):
+          group = group.sort_values(by=['date'])
+          
+          # Create num_instances number of shifted columns
+          for i in range(1, f_num_instances - 1):
+              shifted_values = group['CI_HOUR'].shift(i)
+              group[f'F_CI_shifted{i}'] = shifted_values
+    
+          return group    
+    
+        # Group by 'ARI_CO' and apply the processing function
+        self.data = self.data.groupby(f_delay_group).apply(process_group).reset_index(drop=True)            
+
+        print(f" ================= Delays calculated ! =============== ")
+        
+        return self.data
+    
     def compute_moving_average(self, group_col, window_size=3):
     
         self.data = self.data.sort_values(by=[group_col, 'date'])  # Assuming you have a date column to sort by within each group
