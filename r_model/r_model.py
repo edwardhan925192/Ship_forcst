@@ -1,7 +1,7 @@
 import pandas as pd
 
 class R_model:
-    def __init__(self,train,test args):
+    def __init__(self,train,test, args):
         self.model_name = args.model_name
         self.train = train
         self.test = test
