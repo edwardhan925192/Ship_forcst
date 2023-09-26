@@ -4,105 +4,58 @@ import tqdm as tqdm
 class Data_prep:
     def __init__(self, args):
       self.num_instances = args.num_instances
-      self.filename = args.file_path
+      self.filename1 = args.file_path1
+      self.filename2 = args.file_path2
       self.data = None  # Placeholder for the data once loaded
-
+      self.train = None
+      self.test = None
+    
       if args.load:
-        self.load_data()
+        self.train = load_data(self.filename1)
+        self.test = load_data(self.filename2)
       if args.preprocess:
-        self.preprocess()
+        self.train = preprocess(self.train)
+        self.test = preprocess(self.test)
       if args.extract_dates:
-        self.extract_date_parts(args.datetime_col)
-      if args.previous_delays:
-        self.previous_delays(args.delay_group,args.num_instances)        
-      if args.future_delays:
-        self.future_delays(args.f_delay_group,args.f_num_instances)        
-      if args.moving_avg:
-        self.compute_moving_average(args.avg_group, args.avg_window)
-
+        self.train = extract_date_parts(self.train,args.datetime_col)
+        self.test = extract_date_parts(self.test,args.datetime_col)   
+      for _ in range(args.repeat):
+          
+    
+    def load_data(df):
+      df = pd.read_csv(df)
+      print(f" ================= file =============== loaded!")
+      return df 
 
     
-    def load_data(self):
-      self.data = pd.read_csv(self.filename)
-      print(f" ================= {self.filename}=============== loaded!")
-
-
-    
-    def preprocess(self):
+    def preprocess(df):
       # Identify rows that meet the condition
-      rows_to_remove = self.data[(self.data['DIST'] == 0)].index
-
-      # Dropping rows that have 0 distances
-      self.data = self.data.drop(rows_to_remove, axis=0)
+      df = df[(df['DIST'] != 0)]      
 
       print(f" ================= 0 DIST DROPPED ! =============== ")
       
       # Resetting index
-      self.data = self.data.reset_index(drop=True)
+      df = df.reset_index(drop=True)
 
-      return self.data
-
+      return df
     
-    def extract_date_parts(self, datetime_col):
+    def extract_date_parts(df, datetime_col):
 
       # Ensure the column is in datetime format
-      self.data[datetime_col] = pd.to_datetime(self.data[datetime_col])
+      df[datetime_col] = pd.to_datetime(df[datetime_col])
 
       # Extract year, month, and day
-      self.data['year'] = self.data[datetime_col].dt.year
-      self.data['month'] = self.data[datetime_col].dt.month
-      self.data['day'] = self.data[datetime_col].dt.day
-      self.data['hour'] = self.data[datetime_col].dt.hour
-      self.data['minutes'] = self.data[datetime_col].dt.minute      
-      self.data['date'] = self.data['ATA']
-      self.data = self.data.drop(['ATA'],axis =1)
+      df['year'] = df[datetime_col].dt.year
+      df['month'] = df[datetime_col].dt.month
+      df['day'] = df[datetime_col].dt.day
+      df['hour'] = df[datetime_col].dt.hour      
+      df['date'] = df[datetime_col]
+      df = df.drop([datetime_col],axis =1)
         
       print(f" ================= Dates extracted ! =============== ")
 
-      return self.data
-
+      return df    
     
-    def previous_delays(self, delay_group, num_instances=2):            
-    
-        # The function that will be applied to each group
-        def process_group(group):
-          group = group.sort_values(by=['date'])
-
-          group['time_difference'] = group['date'].diff().dt.total_seconds() / 3600 
-          
-          # Create num_instances number of shifted columns
-          for i in range(1, num_instances + 1):
-              shifted_values = group['CI_HOUR'].shift(i)
-              group[f'CI_HOUR_shifted{i}'] = shifted_values
-    
-          return group    
-    
-        # Group by 'ARI_CO' and apply the processing function
-        self.data = self.data.groupby(delay_group).apply(process_group).reset_index(drop=True)            
-
-        print(f" ================= Delays calculated ! =============== ")
-        
-        return self.data
-
-    def future_delays(self, f_delay_group, f_num_instances=2):            
-    
-        # The function that will be applied to each group
-        def process_group(group):
-          group = group.sort_values(by=['date'])
-          
-          # Create num_instances number of shifted columns
-          for i in range(1, f_num_instances + 1):
-              shifted_values = group['CI_HOUR'].shift(-i)
-              group[f'F_CI_shifted{i}'] = shifted_values
-    
-          return group    
-    
-        # Group by 'ARI_CO' and apply the processing function
-        self.data = self.data.groupby(f_delay_group).apply(process_group).reset_index(drop=True)            
-
-        print(f" ================= Future calculated ! =============== ")
-        
-        return self.data
     
     def compute_moving_average(self, group_col, window_size=3):
     
@@ -112,6 +65,22 @@ class Data_prep:
         print(f" ================= Moving avg calculated ! =============== ")
         
         return self.data
+
+    def apply_group_stats_to_test(train, test, group_column):    
+    
+        # Calculate group-wise means and std on the training dataset
+        group_stats = train.groupby(group_column)['CI_HOUR'].agg(['mean', 'std'])
+    
+        # Apply these statistics to both the training and test datasets
+        train = train.join(group_stats, on=group_column, how='left', rsuffix='_r')
+        test = test.join(group_stats, on=group_column, how='left', rsuffix='_r')
+        
+        # Rename columns for clarity
+        train.rename(columns={'mean_r': f'{group_column}_mean', 'std_r': f'{group_column}_std'}, inplace=True)
+        test.rename(columns={'mean_r': f'{group_column}_mean', 'std_r': f'{group_column}_std'}, inplace=True)        
+    
+        return train, test
+
     
     def get_dataframe(self):
         return self.data
