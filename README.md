@@ -6,7 +6,8 @@
 # Ship_forecast  
 ```markdown
 !python main.py\  
---lists ARI_CO SHIP_TYPE_CATEGORY\  
+--lists ARI_CO SHIP_TYPE_CATEGORY\
+--lists more stats you want\   
 --file_path1 '/content/Ship_forcst/train.csv' \  
 --file_path2 '/content/Ship_forcst/test.csv' \  
 --load \  
