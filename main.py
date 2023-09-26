@@ -1,7 +1,9 @@
 import argparse
+import joblib
 import pandas as pd 
 from custom_stat import apply_group_stats_to_test
 from Data_prep.data_prep import Data_prep
+from r_model.r_model import R_model
 
 
 def main(args):
@@ -14,12 +16,13 @@ def main(args):
     train = train.drop(['SAMPLE_ID', 'date'], axis=1)
 
     model = R_model(train,test,args)
-    pred = model.forward()
+    pred = model.run_model()
 
     test.to_csv('df_test.csv', index=False)
     train.to_csv('df_train.csv', index=False)
-
-    return train, test
+    joblib.dump(pred,'result.joblib')
+    
+    return train, test, pred
     
 
 
@@ -41,6 +44,6 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     # Execute main and capture the returned processor
-    train,test = main(args)
+    train,test,pred = main(args)
     
     print("Processing complete!")
