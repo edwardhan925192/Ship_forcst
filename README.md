@@ -17,4 +17,10 @@
 --auto_time 4  
 ```
 
+# Submission  
+```markdown
+from submission import get_submission  
+get_submission(pred_path, test_path, name)  
+```
+
 
