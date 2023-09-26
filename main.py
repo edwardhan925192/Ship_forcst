@@ -41,6 +41,9 @@ if __name__ == "__main__":
 
     parser.add_argument('--datetime_col', type=str, default="datetime_column_name", help='Name of the datetime column if extracting dates.')
 
+    parser.add_argument('--model_name', type=str, default="autogluon", help='models')
+    parser.add_argument('--auto_time', type=int, default= 4, help='autogluon time')
+
     args = parser.parse_args()
 
     # Execute main and capture the returned processor
