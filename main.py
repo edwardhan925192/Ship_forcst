@@ -6,6 +6,7 @@ from Data_prep.data_prep import Data_prep
 def main(args):
     processor = Data_prep(args)
     processed_dataframe = processor.get_dataframe()
+    processed_dataframe = processed_dataframe.drop(['SAMPLE_ID','ID','date'],axis = 1)
     processed_dataframe.to_csv('processed_df.csv',index = False) 
 
 
