@@ -1,6 +1,6 @@
 import argparse
 import pandas as pd 
-from stat import apply_group_stats_to_test
+from custom_stat import apply_group_stats_to_test
 from Data_prep.data_prep import Data_prep
 
 
@@ -10,11 +10,13 @@ def main(args):
     for lst in args.lists:
         train, test = apply_group_stats_to_test(train, test, lst)        
 
-    test = train.drop(['SAMPLE_ID', 'date'], axis=1)
-    train = test.drop(['SAMPLE_ID', 'date'], axis=1)
+    test = test.drop(['SAMPLE_ID', 'date'], axis=1)
+    train = train.drop(['SAMPLE_ID', 'date'], axis=1)
 
     test.to_csv('df_test.csv', index=False)
     train.to_csv('df_train.csv', index=False)
+
+    return train, test
     
 
 
