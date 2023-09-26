@@ -5,13 +5,13 @@ from Data_prep.data_prep import Data_prep
 
 
 def main(args):
-    train,test = Data_prep(args)
-    
+    processor = Data_prep(args)
+    train, test = processor.forward()
     for lst in args.lists:
         train, test = stat(train, test, lst)        
 
     test = train.drop(['SAMPLE_ID', 'date'], axis=1)
-    train = train.drop(['SAMPLE_ID', 'date'], axis=1)
+    train = test.drop(['SAMPLE_ID', 'date'], axis=1)
 
     test.to_csv('df_test.csv', index=False)
     train.to_csv('df_train.csv', index=False)
@@ -36,6 +36,6 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     # Execute main and capture the returned processor
-    processor_result = main(args)
+    train,test = main(args)
     
     print("Processing complete!")
