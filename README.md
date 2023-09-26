@@ -4,6 +4,7 @@
 %cd /content/Ship_forcst  
 
 # Ship_forecast  
+'''  
 !python main.py\  
 --lists ARI_CO SHIP_TYPE_CATEGORY\  
 --file_path1 '/content/Ship_forcst/train.csv' \  
@@ -13,6 +14,7 @@
 --extract_dates \  
 --datetime_col 'ATA'\  
 --model_name 'autogluon'\  
---auto_time 4
+--auto_time 4  
+'''
 
 
