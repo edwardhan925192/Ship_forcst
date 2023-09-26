@@ -18,9 +18,10 @@ class Data_prep:
         self.test = preprocess(self.test)
       if args.extract_dates:
         self.train = extract_date_parts(self.train,args.datetime_col)
-        self.test = extract_date_parts(self.test,args.datetime_col)   
-      for _ in range(args.repeat):
-          
+        self.test = extract_date_parts(self.test,args.datetime_col)       
+
+    def forward(self):
+        return self.train, self.test
     
     def load_data(df):
       df = pd.read_csv(df)
@@ -66,20 +67,7 @@ class Data_prep:
         
         return self.data
 
-    def apply_group_stats_to_test(train, test, group_column):    
-    
-        # Calculate group-wise means and std on the training dataset
-        group_stats = train.groupby(group_column)['CI_HOUR'].agg(['mean', 'std'])
-    
-        # Apply these statistics to both the training and test datasets
-        train = train.join(group_stats, on=group_column, how='left', rsuffix='_r')
-        test = test.join(group_stats, on=group_column, how='left', rsuffix='_r')
-        
-        # Rename columns for clarity
-        train.rename(columns={'mean_r': f'{group_column}_mean', 'std_r': f'{group_column}_std'}, inplace=True)
-        test.rename(columns={'mean_r': f'{group_column}_mean', 'std_r': f'{group_column}_std'}, inplace=True)        
-    
-        return train, test
+
 
     
     def get_dataframe(self):
