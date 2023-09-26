@@ -31,3 +31,7 @@ class R_model:
             #stack_ensemble_levels=0,
             #hyperparameter_tune=False,
         )
+        
+        test_predictions = predictor.predict(self.test)
+        
+        return test_predictions
