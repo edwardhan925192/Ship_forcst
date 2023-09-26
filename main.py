@@ -1,6 +1,6 @@
 import argparse
 import pandas as pd 
-import stat
+from stat import apply_group_stats_to_test
 from Data_prep.data_prep import Data_prep
 
 
@@ -8,7 +8,7 @@ def main(args):
     processor = Data_prep(args)
     train, test = processor.forward()
     for lst in args.lists:
-        train, test = stat(train, test, lst)        
+        train, test = apply_group_stats_to_test(train, test, lst)        
 
     test = train.drop(['SAMPLE_ID', 'date'], axis=1)
     train = test.drop(['SAMPLE_ID', 'date'], axis=1)
