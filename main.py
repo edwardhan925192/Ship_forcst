@@ -13,8 +13,8 @@ def main(args):
     test = test.drop(['SAMPLE_ID', 'date'], axis=1)
     train = train.drop(['SAMPLE_ID', 'date'], axis=1)
 
-    prediction = R_model(train,test,args)
-    pred = prediction.forward()
+    model = R_model(train,test,args)
+    pred = model.forward()
 
     test.to_csv('df_test.csv', index=False)
     train.to_csv('df_train.csv', index=False)
