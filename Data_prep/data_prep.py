@@ -2,8 +2,7 @@ import pandas as pd
 import tqdm as tqdm
 
 class Data_prep:
-    def __init__(self, args):
-      self.num_instances = args.num_instances
+    def __init__(self, args):      
       self.filename1 = args.file_path1
       self.filename2 = args.file_path2
       self.data = None  # Placeholder for the data once loaded
