@@ -22,7 +22,7 @@ class R_model:
         train_data = self.train
         test_data = self.test
 
-        predictor = TabularPredictor(label=label).fit(
+        predictor = TabularPredictor(label=label,eval_metric='mean_absolute_error').fit(
             train_data=train_data,
             time_limit=3600 * self.auto_time,
             presets='best_quality',  # Can be a list or str of preset configurations. E.g., 'best_quality'
