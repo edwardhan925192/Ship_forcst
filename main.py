@@ -9,8 +9,11 @@ from r_model.r_model import R_model
 def main(args):
     processor = Data_prep(args)
     train, test = processor.forward()
-    for lst in args.lists:
-        train, test = apply_group_stats_to_test(train, test, lst)        
+    
+    if args.lists:
+        # Skip the first list
+        for lst in args.lists[1:]:
+            train, test = apply_group_stats_to_test(train, test, lst)         
 
     test = test.drop(['SAMPLE_ID', 'date'], axis=1)
     train = train.drop(['SAMPLE_ID', 'date'], axis=1)
