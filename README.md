@@ -21,6 +21,10 @@
 --auto_time 4  
 ```
 
+preprocess deletes dist with 0  
+extract_date converts dates into year,month, and so on.  
+
+
 # Submission  
 ```markdown
 from submission import get_submission  
