@@ -16,9 +16,8 @@
 --load \
 --preprocess \
 --extract_dates \
---datetime_col 'ATA'\
---model_name 'autogluon'\  
---auto_time 4  
+--datetime_col 'ATA'
+
 ```
 
 preprocess deletes dist with 0  
