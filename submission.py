@@ -15,6 +15,6 @@ def get_submission(pred_path, test_path, name):
   # Use the mask to filter the rows and assign values from values_list
   test.loc[mask, 'CI_HOUR'] = pred
   
-  result = test[['ID','CI_HOUR']]
+  result = test[['SAMPLE_ID','CI_HOUR']]
   result.columns = (['ID','prediction'])
   result.to_csv(f'{name}.csv',index = False)
