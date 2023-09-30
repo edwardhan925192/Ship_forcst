@@ -28,3 +28,15 @@ def ensemble_three(path1,path2,path3,name):
   mean_수요량 = (df1['수요량'] + df2['수요량'] + df3['수요량']) / 3
   result = pd.concat([df1['ID'],pd.Series(mean_수요량)],axis = 1)
   result.to_csv(f'{name}.csv',index = False)
+
+def add_mean_column(train_df, test_df, group_col, target_col):        
+    
+  mean_values = train_df.groupby(group_col)[target_col].mean().reset_index()  
+  
+  merged_train = train_df.merge(mean_values, on=group_col, how='left', suffixes=('', '_mean'))
+  merged_test = test_df.merge(mean_values, on=group_col, how='left', suffixes=('', '_mean'))
+  
+  return merged_train, merged_test
+
+# Usage:
+# merged_train, merged_test = add_mean_column(train, test, '쇼핑몰 구분', '수요량')
