@@ -1,0 +1,5 @@
+
+2023-09-30
+쇼핑몰 구분 == 각각 개인 쇼핑몰 (다르게 다룸)
+
+가격과 수요량의 correlation or somekind of relation can be good 
