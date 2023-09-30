@@ -48,3 +48,14 @@ def add_mean_column(train_df, test_df, group_col, target_col):
 
 # Usage:
 # merged_train, merged_test = add_mean_column(train, test, '쇼핑몰 구분', '수요량')
+
+def gen_items(train,test):
+  words = ["한과", "과일", "홍삼", "스팸", "버섯", "새우", "샤인", "견과류", "곶감", "한우", "올리브유", "굴비"]
+  
+  pattern = "|".join(words)
+  
+  # Extract the words into a new column
+  train['extracted_words'] = train['선물 유형'].str.findall(pattern).apply(','.join)
+  test['extracted_words'] = test['선물 유형'].str.findall(pattern).apply(','.join)
+
+  return train, test 
