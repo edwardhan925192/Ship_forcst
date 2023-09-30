@@ -10,6 +10,14 @@ def submission(pred_path, test_path, name):
   result.columns = (['ID','수요량'])
   result.to_csv(f'{name}.csv',index = False)
 
+def direct_submission(pred, test_path, name):    
+
+  test = pd.read_csv(test_path)  
+  
+  result = pd.concat([test['ID'],pd.Series(pred)],axis = 1) 
+  result.columns = (['ID','수요량'])
+  result.to_csv(f'{name}.csv',index = False)
+
 def ensemble(path1,path2,name):
 
   df1 = pd.read_csv('path1')
