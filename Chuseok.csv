@@ -1,0 +1,4 @@
+﻿Model,Time,Feature,csv,Score,,,,,Model,Time,Feature,CSV,Score
+Autogluon,2,None,result1,106,,,,,Autogluon,2,"Generalizing 세트 (스팸,과일)",result2,108
+Autogluon,3,One hot 유형 + 가격,,Edward Han ,,,,,,,,,
+Autogluon,2.5,Mall mean ,,Myungsoo,,,,,,,,,
