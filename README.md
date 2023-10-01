@@ -28,4 +28,7 @@ from submission import get_submission
 get_submission(pred_path, test_path, name)  
 ```
 
-
+# Chuseok  
+```markdown
+chuseok.py
+```
