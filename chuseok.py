@@ -74,3 +74,13 @@ def shift_map(train,test):
       test[col] = test['쇼핑몰 구분'].map(pivot_table[col])
 
     return train, test 
+
+def group_mean(group_list,train,test):
+
+  mean_shop = train.groupby(group_list)['수요량'].mean()
+  mean_shop = mean_shop.reset_index()
+  train = pd.merge(train, mean_shop, on=group_list, how='left', suffixes=('', '_mean'))
+  test = pd.merge(test, mean_shop, on=group_list, how='left', suffixes=('', '_mean'))
+  test.rename(columns={"수요량": "수요량_mean"}, inplace=True)
+  
+  return train, test 
