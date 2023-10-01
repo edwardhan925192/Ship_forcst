@@ -46,7 +46,7 @@ def add_mean_column(train_df, test_df, group_col, target_col):
   
   return merged_train, merged_test
 
-# Usage:
+# ========= Usage =========== # 
 # merged_train, merged_test = add_mean_column(train, test, '쇼핑몰 구분', '수요량')
 
 def gen_items(train,test):
@@ -59,3 +59,16 @@ def gen_items(train,test):
   test['extracted_words'] = test['선물 유형'].str.findall(pattern).apply(','.join)
 
   return train, test 
+
+def group_mean(group_list,train,test):
+
+  mean_shop = train.groupby(group_list)['수요량'].mean()
+  mean_shop = mean_shop.reset_index()
+  train = pd.merge(train, mean_shop, on=group_list, how='left', suffixes=('', '_mean'))
+  test = pd.merge(test, mean_shop, on=group_list, how='left', suffixes=('', '_mean'))
+
+  return train, test 
+
+# ========= Usage =========== # 
+# group = ['쇼핑몰 구분','추석까지 남은 기간(주)']
+# train,test = group_mean(group,train,test)
