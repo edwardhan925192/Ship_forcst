@@ -38,4 +38,7 @@ test = pd.read_csv('/content/test.csv')
 
 #Functions
 chuseok.py
+
+#Submission  
+direct_submission(test_predictions,'/content/test.csv',result11)
 ```
