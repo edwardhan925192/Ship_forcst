@@ -30,5 +30,12 @@ get_submission(pred_path, test_path, name)
 
 # Chuseok  
 ```markdown
+#Initialize
+import pandas as pd
+!unzip '/content/drive/MyDrive/data/chuseok.zip'
+train = pd.read_csv('/content/train.csv')
+test = pd.read_csv('/content/test.csv')
+
+#Functions
 chuseok.py
 ```
