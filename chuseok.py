@@ -63,12 +63,17 @@ def gen_items(train,test):
 
   return train, test 
 
-def group_mean(group_list,train,test):
+def shift_map(train,test):
+    group = ['쇼핑몰 구분','추석까지 남은 기간(주)']
+    mean_shop = train.groupby(group)['수요량'].mean()
+    pivot_table = mean_shop.unstack(level='추석까지 남은 기간(주)')
+    pivot_table
 
-  mean_shop = train.groupby(group_list)['수요량'].mean()
-  mean_shop = mean_shop.reset_index()
-  train = pd.merge(train, mean_shop, on=group_list, how='left', suffixes=('', '_mean'))
-  test = pd.merge(test, mean_shop, on=group_list, how='left', suffixes=('', '_mean'))
+    for col in pivot_table.columns:
+        train[col] = train['쇼핑몰 구분'].map(pivot_table[col])
+        test[col] = test['쇼핑몰 구분'].map(pivot_table[col])
+
+    return train, test
 
   return train, test 
 
