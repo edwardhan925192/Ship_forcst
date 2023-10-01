@@ -39,6 +39,27 @@ test = pd.read_csv('/content/test.csv')
 #Functions
 chuseok.py
 
+#Model
+from autogluon.tabular import TabularPredictor
+
+label = '수요량'  
+
+train_data = train
+test_data = test
+
+predictor = TabularPredictor(label=label).fit(
+    train_data=train_data,
+    time_limit=3600 * 2.5,
+    presets='best_quality'
+    #hyperparameters='auto',
+
+    #stack_ensemble_levels=0,
+    #hyperparameter_tune=False,
+    )
+
+test_predictions = predictor.predict(test_data)
+
+
 #Submission  
 direct_submission(test_predictions,'/content/test.csv','result11')
 ```
