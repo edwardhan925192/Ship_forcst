@@ -18,6 +18,9 @@ def direct_submission(pred, test_path, name):
   result.columns = (['ID','수요량'])
   result.to_csv(f'{name}.csv',index = False)
 
+# ======== Usage ======== # 
+# direct_submission(test_predictions,'/content/test.csv',result11)
+
 def ensemble(path1,path2,name):
 
   df1 = pd.read_csv('path1')
