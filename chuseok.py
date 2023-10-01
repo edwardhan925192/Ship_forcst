@@ -23,8 +23,8 @@ def direct_submission(pred, test_path, name):
 
 def ensemble(path1,path2,name):
 
-  df1 = pd.read_csv('path1')
-  df2 = pd.read_csv('path2')
+  df1 = pd.read_csv(path1)
+  df2 = pd.read_csv(path2)
 
   mean_수요량 = (df1['수요량'] + df2['수요량']) / 2
   result = pd.concat([df1['ID'],pd.Series(mean_수요량)],axis = 1)
