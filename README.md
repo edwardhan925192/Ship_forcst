@@ -63,3 +63,5 @@ test_predictions = predictor.predict(test_data)
 #Submission  
 direct_submission(test_predictions,'/content/test.csv','result11')
 ```
+
+This is only for Chuseok
