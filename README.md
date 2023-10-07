@@ -29,6 +29,7 @@ get_submission(pred_path, test_path, name)
 ```
 
 # Chuseok  
+which is going to be deleted soon.  
 ```markdown
 #Initialize
 import pandas as pd
